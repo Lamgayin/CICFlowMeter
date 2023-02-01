@@ -1,4 +1,9 @@
-# Fixed version of the CICFlowMeter tool
+# 改進的地方
+# 本專案基於上位作者的改版進行了修改，以實現自己所需要的功能。下面是修改地方。
+- 1.可在後台運行（無ui）Cicflowmeter
+- 2.將生成的流量傳輸到一個指定的地址。
+
+### Fixed version of the CICFlowMeter tool
 
 As part of our [WTMC 2021 paper](https://downloads.distrinet-research.be/WTMC2021/Resources/wtmc2021_Engelen_Troubleshooting.pdf), we analysed and improved the CICFlowMeter tool, the result of 
 which can be found in this repository. If you use this improved CICFlowMeter tool, please cite our paper:
@@ -30,7 +35,3 @@ FIN packets, which is more in line with the TCP specification.
 
 To run the tool, please refer to the [original CICFlowMeter repository](https://github.com/ahlashkari/CICFlowMeter) for instructions.
 
-### 改進的地方
-
-1.可在後台運行（無ui）Cicflowmeter
-2.將生成的流量傳輸到一個指定的地址。
