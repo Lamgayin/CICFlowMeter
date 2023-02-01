@@ -4,23 +4,18 @@ import cic.cs.unb.ca.flow.FlowMgr;
 import cic.cs.unb.ca.jnetpcap.*;
 import cic.cs.unb.ca.jnetpcap.worker.FlowGenListener;
 import cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker;
-import org.apache.commons.io.FilenameUtils;
+
 import org.apache.commons.lang3.StringUtils;
-import org.jnetpcap.PcapClosedException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cic.cs.unb.ca.jnetpcap.worker.InsertCsvRow;
-import swing.common.SwingUtils;
-
-import java.io.File;
-import java.time.LocalDate;
+import cic.cs.unb.ca.jnetpcap.worker.PostFlowData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static cic.cs.unb.ca.Sys.FILE_SEP;
 
 public class Cmd {
 
@@ -40,14 +35,15 @@ public class Cmd {
         boolean flag = true;
 
         if (args.length < 1) {
-            logger.info("Please select pcap!");
+            logger.info("Please select network interface!");
             return;
         }
 
         networkInterfaceName = args[0];
 
         if (args.length < 2) {
-            logger.info("Please select output folder!");
+            //logger.info("Please select output folder!");
+            logger.info("Please select output url!");
             return;
         }
 
@@ -79,7 +75,8 @@ public class Cmd {
             if ("progress".equals(event.getPropertyName())) {
                 logger.debug("progress");
             } else if (TrafficFlowWorker.PROPERTY_FLOW.equalsIgnoreCase(event.getPropertyName())) {
-                insertFlow((BasicFlow) event.getNewValue(),outPath);
+                //insertFlow((BasicFlow) event.getNewValue(),outPath);
+                postFlowData((BasicFlow) event.getNewValue(),outPath);
             } else if ("state".equals(event.getPropertyName())) {
                 switch (task.getState()) {
                     case STARTED:
@@ -99,6 +96,20 @@ public class Cmd {
         mWorker.execute();
     }
 
+    private static void postFlowData(BasicFlow flow,String url) {
+        List<String> flowStringList = new ArrayList<>();
+        List<String[]> flowDataList = new ArrayList<>();
+        String flowDump = flow.dumpFlowBasedFeaturesEx();
+        flowStringList.add(flowDump);
+        flowDataList.add(StringUtils.split(flowDump, ","));
+
+        String header = FlowFeature.getHeader();
+        /*String filename = LocalDate.now().toString() + FlowMgr.FLOW_SUFFIX;
+        logger.info(header.toString());*/
+        csvWriterThread.execute(new PostFlowData(header, flowStringList,url));
+    }
+
+/*
     private static void insertFlow(BasicFlow flow,String outPath) {
         List<String> flowStringList = new ArrayList<>();
         List<String[]> flowDataList = new ArrayList<>();
@@ -111,9 +122,14 @@ public class Cmd {
 
         String path = outPath;
         String filename = LocalDate.now().toString() + FlowMgr.FLOW_SUFFIX;
+        logger.info(header.toString());
+        //logger.info(header.getClass().toString());
+        //logger.info(flowStringList.getClass().toString());
+        //logger.info(String.valueOf(flowStringList.toString()));
         csvWriterThread.execute(new InsertCsvRow(header, flowStringList, path, filename));
-        logger.info(String.valueOf(flowStringList));
+        //logger.info(String.valueOf(flowStringList));
     }
+*/
 
     static class FlowListener implements FlowGenListener {
 
@@ -134,7 +150,8 @@ public class Cmd {
             String flowDump = flow.dumpFlowBasedFeaturesEx();
             List<String> flowStringList = new ArrayList<>();
             flowStringList.add(flowDump);
-            InsertCsvRow.insert(FlowFeature.getHeader(), flowStringList, outPath, fileName + FlowMgr.FLOW_SUFFIX);
+            //InsertCsvRow.insert(FlowFeature.getHeader(), flowStringList, outPath, fileName + FlowMgr.FLOW_SUFFIX);
+            PostFlowData.insert(FlowFeature.getHeader(), flowStringList, outPath);
 
             cnt++;
 

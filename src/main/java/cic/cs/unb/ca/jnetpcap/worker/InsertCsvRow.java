@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import static cic.cs.unb.ca.jnetpcap.Utils.FILE_SEP;
 import static cic.cs.unb.ca.jnetpcap.Utils.LINE_SEP;
 
-public class InsertCsvRow implements Runnable {
+public class  InsertCsvRow implements Runnable {
     public static final Logger logger = LoggerFactory.getLogger(InsertCsvRow.class);
     private String header;
     private List<String> rows;
@@ -48,6 +48,7 @@ public class InsertCsvRow implements Runnable {
 
         File fileSavPath = new File(savepath);
 
+        logger.info(rows.toString());
         if(!fileSavPath.exists()) {
             fileSavPath.mkdirs();
         }

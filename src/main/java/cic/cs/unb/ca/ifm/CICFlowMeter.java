@@ -46,8 +46,7 @@ public class CICFlowMeter {
 		}
 		
 		//String[] files = new File(pcapPath).list();
-		
-		
+
 		String[] pcapfiles = new File(pcapPath).list(new FilenameFilter() {
 
 			@Override
@@ -113,7 +112,6 @@ public class CICFlowMeter {
 				}
 			}
 
-		
 			long end = System.currentTimeMillis();
 			logger.info("Done! in {} seconds",((end-start)/1000));
 			logger.info("\t Total packets: {}",nTotal);

@@ -298,7 +298,7 @@ public class FlowMonitorPane extends JPanel {
     private void startTrafficFlow() {
 
         String ifName = list.getSelectedValue().name();
-
+        logger.info(ifName.toString());
         if (mWorker != null && !mWorker.isCancelled()) {
             return;
         }

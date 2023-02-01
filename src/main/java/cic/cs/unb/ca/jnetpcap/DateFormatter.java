@@ -27,7 +27,7 @@ public class DateFormatter {
 	public static String convertEpochTimestamp2String(long time) {
 		return Instant                                                  // Represent a moment as a count since the epoch reference of 1970-01-01T00:00Z.
 				.ofEpochSecond(                                          // Instantiate a `Instant` as a count of whole seconds plus fractional second.
-						TimeUnit.MICROSECONDS.toSeconds( time ) ,    // Count of whole seconds since the epoch reference.
+						TimeUnit.MICROSECONDS.toSeconds( time )+28800,    // Count of whole seconds since the epoch reference.
 						TimeUnit.MICROSECONDS.toNanos( time )        // Calculate fractional second as a count of nanoseconds.
 								-
 								TimeUnit.SECONDS.toNanos(

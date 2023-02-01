@@ -28,6 +28,7 @@ public class LoadPcapInterfaceWorker extends SwingWorker<List<PcapIf>,String>{
 			logger.error("Error occured: " + errbuf.toString());
 			throw new Exception(errbuf.toString());
 		}
+		//logger.info(ifs.toString());
 		return ifs;
 	}
 
