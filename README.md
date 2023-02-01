@@ -29,3 +29,8 @@ FIN packets, which is more in line with the TCP specification.
 ### Running the tool
 
 To run the tool, please refer to the [original CICFlowMeter repository](https://github.com/ahlashkari/CICFlowMeter) for instructions.
+
+### 改進的地方
+
+1.可在後台運行（無ui）Cicflowmeter
+2.將生成的流量傳輸到一個指定的地址。
